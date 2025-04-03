@@ -17,6 +17,7 @@
  */
 package io.chaldeaprjkt.gamespace.settings
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.preference.Preference
@@ -35,6 +36,11 @@ class SettingsFragment : Hilt_SettingsFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val isGoogleDevice = Build.MANUFACTURER.equals("Google", ignoreCase = true)
+        val bypassChargePref = findPreference<Preference>("bypass_charge_enabled")
+        if (!isGoogleDevice && bypassChargePref != null) {
+            preferenceScreen.removePreference(bypassChargePref)
+        }
     }
 
     override fun onResume() {
